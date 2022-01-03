@@ -2,12 +2,13 @@
   <img src="src/Files/Assets/AppTiles/StoreLogo.scale-400.png" />
 </p>
 
-[![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=main)
+[![Build Status](https://dev.azure.com/filescommunity/Files/_apis/build/status/Build%20Pipeline?branchName=iFiler)](https://dev.azure.com/filescommunity/Files/_build/latest?definitionId=4&branchName=iFiler)
 [![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/files)
 
 ## Welcome to the Files repository
+## iFiler it's try to make Files look like Mac Finder
 
-![Files](src/Files/Assets/FilesHome.png)
+![iFiler](src/Files/Assets/iFiler.png)
 
 ## What is Files?
 Files is a file manager for Windows with a powerful yet intuitive design. It has features like multiple tabs, panes, columns, shell extensions in the context menu and tags.

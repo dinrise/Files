@@ -127,6 +127,7 @@
                                 <Border
                                     x:Name="ContentBackgroundBorder"
                                     Grid.Row="1"
+                                    Grid.Column="2"
                                     Grid.ColumnSpan="2"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
@@ -180,7 +181,7 @@
                                     Grid.Row="0"
                                     Grid.RowSpan="2"
                                     Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
-                                    Width="8"
+                                    Width="4"
                                     HorizontalAlignment="Right"
                                     AllowFocusOnInteraction="True"
                                     Background="Transparent"
