@@ -232,16 +232,7 @@
                         <ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
                     </Grid.ColumnDefinitions>
 
-                    <!--  This defines the drag area for the title bar  -->
-                    <Grid
-                        x:Name="DragArea"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Height="50"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Top"
-                        Background="Transparent"
-                        Loaded="DragArea_Loaded" />
+                    
                 </Grid>
             </controls:SidebarControl.TabContent>
 
@@ -269,12 +260,25 @@
                         MaxWidth="400" />
                 </Grid.ColumnDefinitions>
 
+                <!--  This defines the drag area for the title bar  -->
+                <Grid
+                        x:Name="DragArea"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Height="50"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Background="Transparent"
+                        Loaded="DragArea_Loaded" />
+
                 <controls:NavigationToolbar
                         x:Name="NavToolbar"
                         Grid.Row="0"
                         Grid.ColumnSpan="3"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
+                        Margin="0,0,150,0"
                         x:Load="False"
                         Loaded="NavToolbar_Loaded"
                         OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
@@ -403,6 +407,7 @@
                     Style="{StaticResource DefaultGridSplitterStyle}" />
             </Grid>
         </controls:SidebarControl>
+        
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="MultitaskingControlStates">
                 <VisualState x:Name="NormalWindowWidth">
