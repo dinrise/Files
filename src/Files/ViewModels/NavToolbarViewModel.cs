@@ -820,7 +820,7 @@ namespace Files.ViewModels
                 return;
             }
 
-            var boldFontWeight = new FontWeight { Weight = 800 };
+            var boldFontWeight = new FontWeight { Weight = 900 };
             var normalFontWeight = new FontWeight { Weight = 400 };
 
             var workingPath = PathComponents
@@ -836,11 +836,11 @@ namespace Files.ViewModels
                     Icon = new FontIcon
                     {
                         Glyph = "\uED25",
-                        FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
+                        FontWeight = boldFontWeight
                     },
                     Text = childFolder.Item.Name,
-                    FontSize = 12,
-                    FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
+                    FontSize = 20,
+                    FontWeight = boldFontWeight
                 };
 
                 if (workingPath != childFolder.Path)

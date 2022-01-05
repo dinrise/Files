@@ -360,7 +360,7 @@
                     IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Back (Alt+Left Arrow)">
-                    <FontIcon FontSize="14" Glyph="&#xE72B;" />
+                    <FontIcon FontSize="20" Glyph="&#xE76B;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton1" />
                         <KeyboardAccelerator Key="Back" />
@@ -381,14 +381,14 @@
                     IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Forward (Alt+Right Arrow)">
-                    <FontIcon FontSize="14" Glyph="&#xE72A;" />
+                    <FontIcon FontSize="20" Glyph="&#xE76C;" />
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="XButton2" />
                         <KeyboardAccelerator Key="Right" Modifiers="Menu" />
                     </Button.KeyboardAccelerators>
                 </Button>
 
-                <Button
+                <!--<Button
                     x:Name="Up"
                     x:Uid="NavUpButton"
                     Width="36"
@@ -405,9 +405,9 @@
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Up" Modifiers="Menu" />
                     </Button.KeyboardAccelerators>
-                </Button>
+                </Button>-->
 
-                <Button
+                <!--<Button
                     x:Name="Refresh"
                     x:Uid="NavRefreshButton"
                     Width="36"
@@ -424,7 +424,7 @@
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="F5" />
                     </Button.KeyboardAccelerators>
-                </Button>
+                </Button>-->
             </StackPanel>
 
             <AutoSuggestBox
@@ -440,7 +440,7 @@
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
-                FontWeight="SemiBold"
+                FontWeight="Black"
                 ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
                 Loaded="VisiblePath_Loaded"
                 LostFocus="VisiblePath_LostFocus"
@@ -462,10 +462,6 @@
                 VerticalAlignment="Center"
                 extensions:FrameworkElementExtensions.Cursor="Hand"
                 x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
-                Background="{ThemeResource TextControlBackground}"
-                BorderBrush="{ThemeResource TextControlBorderBrush}"
-                BorderThickness="1"
-                CornerRadius="{StaticResource ControlCornerRadius}"
                 PointerPressed="ManualPathEntryItem_Click"
                 Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
                 <uc:PathBreadcrumb
