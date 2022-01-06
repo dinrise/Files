@@ -285,7 +285,7 @@
                         Margin="0,0,0,0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
-                        Background="White"
+                        Background="Transparent"
                         Loaded="DragArea_Loaded" />
                 
                 <usercontrols:HorizontalMultitaskingControl
