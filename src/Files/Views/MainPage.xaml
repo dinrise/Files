@@ -32,15 +32,15 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">0,0,0,0</Thickness>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">0,0,0,0</Thickness>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
-                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">0,0,0,0</Thickness>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
@@ -260,34 +260,34 @@
                         MaxWidth="400" />
                 </Grid.ColumnDefinitions>
 
-                <!--  This defines the drag area for the title bar  -->
-                <Grid
-                        x:Name="DragArea"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Height="50"
-                        Margin="0,0,0,0"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Top"
-                        Background="Transparent"
-                        Loaded="DragArea_Loaded" />
-
                 <controls:NavigationToolbar
                         x:Name="NavToolbar"
                         Grid.Row="0"
                         Grid.ColumnSpan="3"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
-                        Margin="0,0,150,0"
+                        Margin="0,0,170,0"
                         x:Load="False"
                         Loaded="NavToolbar_Loaded"
                         OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
                         SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
                         ShowOngoingTasks="True"
-                        ShowSearchBox="True"
+                        ShowSearchBox="False"
                         ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                        TabIndex="1" />
-
+                        TabIndex="0" />
+                <!--  This defines the drag area for the title bar  -->
+                <Grid
+                        x:Name="DragArea"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Width="100"
+                        Height="50"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Background="White"
+                        Loaded="DragArea_Loaded" />
+                
                 <usercontrols:HorizontalMultitaskingControl
                         x:Name="horizontalMultitaskingControl"
                         Grid.Row="1"
