@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -24,8 +25,8 @@ namespace Files.Views.LayoutModes
         public ColumnViewBase() : base()
         {
             this.InitializeComponent();
-            CurrentColumn = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+            selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
         }
 
         protected override void HookEvents()
@@ -160,6 +161,11 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
         }
 
+        private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        {
+            FileList.Focus(FocusState.Programmatic);
+        }
+
         private async void ReloadItemIcons()
         {
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
@@ -261,6 +267,10 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
             IsRenamingItem = false;
+
+            // Re-focus selected list item
+            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+            listViewItem?.Focus(FocusState.Programmatic);
         }
 
         public override void ResetItemOpacity()
@@ -287,9 +297,6 @@ namespace Files.Views.LayoutModes
         }
 
         #endregion IDisposable
-
-        public static ColumnViewBase CurrentColumn;
-        private ListViewItem listViewItem;
 
         private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -339,7 +346,14 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem)
                 {
-                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                    if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                    }
                     e.Handled = true;
                 }
             }
@@ -363,13 +377,47 @@ namespace Files.Views.LayoutModes
             }
             else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
             {
-                // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
-                NavToolbar?.Focus(FocusState.Pointer);
+                if (!IsRenamingItem)
+                {
+                    // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
+                    NavToolbar?.Focus(FocusState.Pointer);
+                }
             }
             else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
                 NavToolbar?.Focus(FocusState.Pointer);
+            }
+            else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
+            {
+                // If list has only one item, select it on arrow down/up (#5681)
+                if (!IsItemSelected && FileList.Items.Count == 1)
+                {
+                    FileList.SelectedIndex = 0;
+                    e.Handled = true;
+                }
+            }
+            else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
+            {
+                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                {
+                    if ((ParentShellPageInstance as ColumnShellPage).ColumnParams.Column > 0)
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                    }
+                    e.Handled = true;
+                }
+            }
+            else if (e.Key == VirtualKey.Right) // Right arrow: open selected folder
+            {
+                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                {
+                    if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                    }
+                    e.Handled = true;
+                }
             }
         }
 
@@ -382,7 +430,6 @@ namespace Files.Views.LayoutModes
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
                     ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }
                 else
@@ -439,7 +486,6 @@ namespace Files.Views.LayoutModes
 
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
                     ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }
                 else
